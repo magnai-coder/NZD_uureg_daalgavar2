@@ -77,6 +77,24 @@
             border-color: rgba(56, 189, 248, 0.5);
             box-shadow: 0 0 15px rgba(14, 165, 233, 0.15);
         }
+        .nav-tab.active-tab {
+            background: linear-gradient(135deg, rgba(14,165,233,0.18), rgba(15,23,42,0.9));
+            border: 1px solid rgba(56, 189, 248, 0.45);
+            color: white;
+            box-shadow: 0 0 0 1px rgba(56,189,248,0.2);
+        }
+        .nav-tab {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid transparent;
+            color: #cbd5e1;
+        }
+        .fa-spin-slow {
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
     </style>
 </head>
 <body class="min-h-screen flex flex-col bg-slate-950 text-slate-100 antialiased selection:bg-cyan-500 selection:text-white">
@@ -86,7 +104,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
             <div class="flex items-center gap-4">
                 <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-full border-2 border-amber-400/80 bg-slate-900/80 p-1 shadow-lg shadow-cyan-950/50 overflow-hidden">
-                    <img src="logo.jpeg" alt="НЗДТГ лого" class="w-full h-full object-contain rounded-full bg-white/5">
+                    <img src="logo.jpeg?v=2026-10-20" alt="НЗДТГ лого" class="w-full h-full object-contain rounded-full bg-white/5">
                 </div>
 
                 <div class="leading-tight">
@@ -123,19 +141,19 @@
 
         <!-- Top Navigation Panels Tab Bar -->
         <div class="grid grid-cols-2 md:grid-cols-4 gap-3 bg-slate-900/60 p-1.5 rounded-2xl border border-slate-800">
-            <button onclick="switchPanel('panel-all')" id="tab-panel-all" class="nav-tab active-tab flex items-center justify-center space-x-2.5 py-3 px-4 rounded-xl text-xs sm:text-sm font-semibold text-white bg-cyan-600 shadow-lg shadow-cyan-950/50 transition-all duration-200">
+            <button onclick="switchPanel('panel-all')" id="tab-panel-all" class="nav-tab active-tab flex items-center justify-center space-x-2.5 py-3 px-4 rounded-xl text-xs sm:text-sm font-semibold text-slate-200">
                 <i class="fa-solid fa-chart-pie text-base"></i>
                 <span class="truncate">1. Үндсэн үр дүн</span>
             </button>
-            <button onclick="switchPanel('panel-shuurkhai')" id="tab-panel-shuurkhai" class="nav-tab flex items-center justify-center space-x-2.5 py-3 px-4 rounded-xl text-xs sm:text-sm font-semibold text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 transition-all duration-200">
+            <button onclick="switchPanel('panel-shuurkhai')" id="tab-panel-shuurkhai" class="nav-tab flex items-center justify-center space-x-2.5 py-3 px-4 rounded-xl text-xs sm:text-sm font-semibold text-slate-300">
                 <i class="fa-solid fa-gavel text-base"></i>
                 <span class="truncate">2. Шуурхай хурал</span>
             </button>
-            <button onclick="switchPanel('panel-gaduur')" id="tab-panel-gaduur" class="nav-tab flex items-center justify-center space-x-2.5 py-3 px-4 rounded-xl text-xs sm:text-sm font-semibold text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 transition-all duration-200">
+            <button onclick="switchPanel('panel-gaduur')" id="tab-panel-gaduur" class="nav-tab flex items-center justify-center space-x-2.5 py-3 px-4 rounded-xl text-xs sm:text-sm font-semibold text-slate-300">
                 <i class="fa-solid fa-person-walking-luggage text-base"></i>
                 <span class="truncate">3. Гадуур ажиллах</span>
             </button>
-            <button onclick="switchPanel('panel-khural')" id="tab-panel-khural" class="nav-tab flex items-center justify-center space-x-2.5 py-3 px-4 rounded-xl text-xs sm:text-sm font-semibold text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 transition-all duration-200">
+            <button onclick="switchPanel('panel-khural')" id="tab-panel-khural" class="nav-tab flex items-center justify-center space-x-2.5 py-3 px-4 rounded-xl text-xs sm:text-sm font-semibold text-slate-300">
                 <i class="fa-solid fa-users-rectangle text-base"></i>
                 <span class="truncate">4. Бусад хуралд</span>
             </button>
@@ -152,7 +170,7 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 flex-1 lg:max-w-4xl">
                     <div class="relative">
                         <label class="block text-[10px] font-medium text-slate-400 mb-1 uppercase tracking-wider">Огноо / Хугацаа</label>
-                        <select id="filter-date" onchange="applyFilters()" class="w-full bg-slate-900 border border-slate-700 text-slate-200 text-xs rounded-lg px-3 py-2.5 focus:ring-2 focus:ring-cyan-500/60 focus:border-cyan-500 outline-none">
+                        <select id="filter-date" onchange="applyFilters()" class="w-full bg-slate-900 border border-slate-700 text-slate-200 text-xs rounded-lg px-3 py-2.5 focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 outline-none">
                             <option value="all">Бүх хугацаа</option>
                             <option value="2026-10">2026 оны 10 сар</option>
                             <option value="2026-09">2026 оны 09 сар</option>
@@ -162,7 +180,7 @@
 
                     <div class="relative">
                         <label class="block text-[10px] font-medium text-slate-400 mb-1 uppercase tracking-wider">Байгууллага / Хэрэгжүүлэгч</label>
-                        <select id="filter-dept" onchange="applyFilters()" class="w-full bg-slate-900 border border-slate-700 text-slate-200 text-xs rounded-lg px-3 py-2.5 focus:ring-2 focus:ring-cyan-500/60 focus:border-cyan-500 outline-none">
+                        <select id="filter-dept" onchange="applyFilters()" class="w-full bg-slate-900 border border-slate-700 text-slate-200 text-xs rounded-lg px-3 py-2.5 focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 outline-none">
                             <option value="all">Бүх байгууллага</option>
                             <option value="НЗДТГ-ын Санхүү, хөрөнгө оруулалтын газар">НЗДТГ-ын Санхүү, хөрөнгө оруулалтын газар</option>
                             <option value="Нийслэлийн Замын хөгжлийн газар">Нийслэлийн Замын хөгжлийн газар</option>
@@ -176,7 +194,7 @@
 
                     <div class="relative">
                         <label class="block text-[10px] font-medium text-slate-400 mb-1 uppercase tracking-wider">Төлөв</label>
-                        <select id="filter-status" onchange="applyFilters()" class="w-full bg-slate-900 border border-slate-700 text-slate-200 text-xs rounded-lg px-3 py-2.5 focus:ring-2 focus:ring-cyan-500/60 focus:border-cyan-500 outline-none">
+                        <select id="filter-status" onchange="applyFilters()" class="w-full bg-slate-900 border border-slate-700 text-slate-200 text-xs rounded-lg px-3 py-2.5 focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 outline-none">
                             <option value="all">Бүх төлөв</option>
                             <option value="completed">Хэрэгжсэн</option>
                             <option value="in_progress">Хэрэгжих шатандаа</option>
@@ -188,14 +206,14 @@
                     <div class="relative">
                         <label class="block text-[10px] font-medium text-slate-400 mb-1 uppercase tracking-wider">Агуулгаар хайх</label>
                         <div class="relative">
-                            <input type="text" id="filter-search" onkeyup="applyFilters()" placeholder="Үгээр хайх..." class="w-full bg-slate-900 border border-slate-700 text-slate-200 text-xs rounded-lg px-3 py-2.5 pl-8 focus:ring-2 focus:ring-cyan-500/60 focus:border-cyan-500 outline-none">
+                            <input type="text" id="filter-search" onkeyup="applyFilters()" placeholder="Үгээр хайх..." class="w-full bg-slate-900 border border-slate-700 text-slate-200 text-xs rounded-lg pl-8 pr-3 py-2.5 focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 outline-none">
                             <i class="fa-solid fa-magnifying-glass absolute left-2.5 top-3 text-slate-500 text-xs"></i>
                         </div>
                     </div>
                 </div>
 
                 <div>
-                    <button onclick="resetFilters()" class="w-full lg:w-auto px-4 py-2.5 text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg border border-slate-700 transition-all duration-200">
+                    <button onclick="resetFilters()" class="w-full lg:w-auto px-4 py-2.5 text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg border border-slate-700 transition">
                         <i class="fa-solid fa-rotate-left text-slate-400"></i>
                         <span>Цэвэрлэх</span>
                     </button>
@@ -281,15 +299,167 @@
     </footer>
 
     <script>
-        // Minimal script to support the dashboard UI
+        const dashboardTasks = [
+            { id: 1, title: 'Дүүргүүдийн төлөвлөгөө батлах', dept: 'Дүүргийн Засаг дарга нар', status: 'completed', date: '2026-10', panel: 'panel-all' },
+            { id: 2, title: 'Замын хөдөлгөөн удирдлагын төвийн тайлан', dept: 'Замын хөдөлгөөн удирдлагын төв', status: 'in_progress', date: '2026-10', panel: 'panel-shuurkhai' },
+            { id: 3, title: 'Нийтийн тээврийн төсөл хэрэгжүүлэх', dept: 'Нийтийн тээврийн бодлогын газар', status: 'achieved', date: '2026-09', panel: 'panel-gaduur' },
+            { id: 4, title: 'Газар зохион байгуулалтын ажлын төлөв', dept: 'Нийслэлийн Газар зохион байгуулалтын алба', status: 'delayed', date: '2026-10', panel: 'panel-khural' },
+            { id: 5, title: 'Санхүүгийн тайлан бэлтгэх', dept: 'НЗДТГ-ын Санхүү, хөрөнгө оруулалтын газар', status: 'completed', date: '2026-09', panel: 'panel-all' },
+            { id: 6, title: 'Дэд бүтцийн хөрөнгө оруулалт', dept: 'Нийслэлийн Замын хөгжлийн газар', status: 'in_progress', date: 'q3-2026', panel: 'panel-gaduur' },
+            { id: 7, title: 'Засгийн газрын хуралд бэлтгэл', dept: 'Улаанбаатар хотын Захирагчийн ажлын алба', status: 'achieved', date: '2026-10', panel: 'panel-khural' },
+            { id: 8, title: 'Зохицуулалт, хэрэгжилтийн хяналт', dept: 'Нийслэлийн Замын хөгжлийн газар', status: 'delayed', date: 'q3-2026', panel: 'panel-shuurkhai' }
+        ];
+
         function updateCurrentDate() {
             const now = new Date();
             const d = now.toLocaleString('sv-SE', { timeZone: 'Asia/Ulaanbaatar' }).replace(' ', ' ');
-            document.getElementById('current-date-display').textContent = d;
+            const el = document.getElementById('current-date-display');
+            if (el) {
+                el.textContent = d;
+            }
+        }
+
+        function switchPanel(panelName) {
+            const tabs = document.querySelectorAll('.nav-tab');
+            tabs.forEach(tab => {
+                tab.classList.remove('active-tab');
+                tab.classList.remove('text-white');
+                tab.classList.add('text-slate-300');
+            });
+
+            const current = document.getElementById('tab-' + panelName);
+            if (current) {
+                current.classList.add('active-tab');
+                current.classList.remove('text-slate-300');
+                current.classList.add('text-white');
+            }
+        }
+
+        function getSelectedFilters() {
+            return {
+                date: document.getElementById('filter-date')?.value || 'all',
+                dept: document.getElementById('filter-dept')?.value || 'all',
+                status: document.getElementById('filter-status')?.value || 'all',
+                search: (document.getElementById('filter-search')?.value || '').trim().toLowerCase()
+            };
+        }
+
+        function getFilteredTasks() {
+            const filters = getSelectedFilters();
+            return dashboardTasks.filter(task => {
+                const matchesDate = filters.date === 'all' || task.date === filters.date;
+                const matchesDept = filters.dept === 'all' || task.dept === filters.dept;
+                const matchesStatus = filters.status === 'all' || task.status === filters.status;
+                const matchesSearch = !filters.search || task.title.toLowerCase().includes(filters.search) || task.dept.toLowerCase().includes(filters.search);
+                return matchesDate && matchesDept && matchesStatus && matchesSearch;
+            });
+        }
+
+        function renderKpis() {
+            const tasks = getFilteredTasks();
+            const total = tasks.length || 1;
+            const statusCounts = {
+                completed: tasks.filter(t => t.status === 'completed').length,
+                in_progress: tasks.filter(t => t.status === 'in_progress').length,
+                achieved: tasks.filter(t => t.status === 'achieved').length,
+                delayed: tasks.filter(t => t.status === 'delayed').length
+            };
+
+            const setText = (id, value) => {
+                const el = document.getElementById(id);
+                if (el) el.textContent = value;
+            };
+
+            setText('count-completed', statusCounts.completed);
+            setText('count-in_progress', statusCounts.in_progress);
+            setText('count-achieved', statusCounts.achieved);
+            setText('count-delayed', statusCounts.delayed);
+
+            setText('pct-completed', ((statusCounts.completed / total) * 100).toFixed(0) + '%');
+            setText('pct-in_progress', ((statusCounts.in_progress / total) * 100).toFixed(0) + '%');
+            setText('pct-achieved', ((statusCounts.achieved / total) * 100).toFixed(0) + '%');
+            setText('pct-delayed', ((statusCounts.delayed / total) * 100).toFixed(0) + '%');
+
+            const avg = Math.round((statusCounts.completed * 100 + statusCounts.in_progress * 70 + statusCounts.achieved * 85 + statusCounts.delayed * 40) / total);
+            setText('avg-completion', avg + '%');
+            const bar = document.getElementById('avg-progress-bar');
+            if (bar) bar.style.width = avg + '%';
+        }
+
+        function applyFilters() {
+            renderKpis();
+        }
+
+        function selectKpiFilter(status) {
+            const filter = document.getElementById('filter-status');
+            if (filter) {
+                filter.value = status;
+                applyFilters();
+            }
+        }
+
+        function resetKpiFilter() {
+            const filter = document.getElementById('filter-status');
+            if (filter) {
+                filter.value = 'all';
+                applyFilters();
+            }
+        }
+
+        function resetFilters() {
+            const fields = [
+                document.getElementById('filter-date'),
+                document.getElementById('filter-dept'),
+                document.getElementById('filter-status'),
+                document.getElementById('filter-search')
+            ];
+
+            fields.forEach(field => {
+                if (!field) return;
+                if (field.tagName === 'SELECT') field.value = 'all';
+                if (field.tagName === 'INPUT') field.value = '';
+            });
+
+            applyFilters();
+        }
+
+        function exportReport() {
+            const tasks = getFilteredTasks();
+            const rows = [
+                ['Нэр', 'Байгууллага', 'Төлөв', 'Огноо'],
+                ...tasks.map(t => [t.title, t.dept, t.status, t.date])
+            ];
+
+            const csvContent = rows.map(row => row.map(value => '"' + String(value).replace(/"/g, '""') + '"').join(',')).join('\n');
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'report.csv';
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            URL.revokeObjectURL(url);
+        }
+
+        function refreshData() {
+            const icon = document.getElementById('refresh-icon');
+            if (icon) {
+                icon.classList.add('fa-spin-slow');
+            }
+
+            setTimeout(() => {
+                updateCurrentDate();
+                applyFilters();
+                if (icon) {
+                    icon.classList.remove('fa-spin-slow');
+                }
+            }, 600);
         }
 
         document.addEventListener('DOMContentLoaded', function () {
             updateCurrentDate();
+            renderKpis();
         });
     </script>
 </body>
