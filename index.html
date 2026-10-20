@@ -77,24 +77,6 @@
             border-color: rgba(56, 189, 248, 0.5);
             box-shadow: 0 0 15px rgba(14, 165, 233, 0.15);
         }
-        .nav-tab.active-tab {
-            background: linear-gradient(135deg, rgba(14,165,233,0.18), rgba(15,23,42,0.9));
-            border: 1px solid rgba(56, 189, 248, 0.45);
-            color: white;
-            box-shadow: 0 0 0 1px rgba(56,189,248,0.2);
-        }
-        .nav-tab {
-            background: rgba(15, 23, 42, 0.6);
-            border: 1px solid transparent;
-            color: #cbd5e1;
-        }
-        .fa-spin-slow {
-            animation: spin 1s linear infinite;
-        }
-        @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
     </style>
 </head>
 <body class="min-h-screen flex flex-col bg-slate-950 text-slate-100 antialiased selection:bg-cyan-500 selection:text-white">
@@ -299,167 +281,15 @@
     </footer>
 
     <script>
-        const dashboardTasks = [
-            { id: 1, title: 'Дүүргүүдийн төлөвлөгөө батлах', dept: 'Дүүргийн Засаг дарга нар', status: 'completed', date: '2026-10', panel: 'panel-all' },
-            { id: 2, title: 'Замын хөдөлгөөн удирдлагын төвийн тайлан', dept: 'Замын хөдөлгөөн удирдлагын төв', status: 'in_progress', date: '2026-10', panel: 'panel-shuurkhai' },
-            { id: 3, title: 'Нийтийн тээврийн төсөл хэрэгжүүлэх', dept: 'Нийтийн тээврийн бодлогын газар', status: 'achieved', date: '2026-09', panel: 'panel-gaduur' },
-            { id: 4, title: 'Газар зохион байгуулалтын ажлын төлөв', dept: 'Нийслэлийн Газар зохион байгуулалтын алба', status: 'delayed', date: '2026-10', panel: 'panel-khural' },
-            { id: 5, title: 'Санхүүгийн тайлан бэлтгэх', dept: 'НЗДТГ-ын Санхүү, хөрөнгө оруулалтын газар', status: 'completed', date: '2026-09', panel: 'panel-all' },
-            { id: 6, title: 'Дэд бүтцийн хөрөнгө оруулалт', dept: 'Нийслэлийн Замын хөгжлийн газар', status: 'in_progress', date: 'q3-2026', panel: 'panel-gaduur' },
-            { id: 7, title: 'Засгийн газрын хуралд бэлтгэл', dept: 'Улаанбаатар хотын Захирагчийн ажлын алба', status: 'achieved', date: '2026-10', panel: 'panel-khural' },
-            { id: 8, title: 'Зохицуулалт, хэрэгжилтийн хяналт', dept: 'Нийслэлийн Замын хөгжлийн газар', status: 'delayed', date: 'q3-2026', panel: 'panel-shuurkhai' }
-        ];
-
+        // Minimal script to support the dashboard UI
         function updateCurrentDate() {
             const now = new Date();
             const d = now.toLocaleString('sv-SE', { timeZone: 'Asia/Ulaanbaatar' }).replace(' ', ' ');
-            const el = document.getElementById('current-date-display');
-            if (el) {
-                el.textContent = d;
-            }
-        }
-
-        function switchPanel(panelName) {
-            const tabs = document.querySelectorAll('.nav-tab');
-            tabs.forEach(tab => {
-                tab.classList.remove('active-tab');
-                tab.classList.remove('text-white');
-                tab.classList.add('text-slate-300');
-            });
-
-            const current = document.getElementById('tab-' + panelName);
-            if (current) {
-                current.classList.add('active-tab');
-                current.classList.remove('text-slate-300');
-                current.classList.add('text-white');
-            }
-        }
-
-        function getSelectedFilters() {
-            return {
-                date: document.getElementById('filter-date')?.value || 'all',
-                dept: document.getElementById('filter-dept')?.value || 'all',
-                status: document.getElementById('filter-status')?.value || 'all',
-                search: (document.getElementById('filter-search')?.value || '').trim().toLowerCase()
-            };
-        }
-
-        function getFilteredTasks() {
-            const filters = getSelectedFilters();
-            return dashboardTasks.filter(task => {
-                const matchesDate = filters.date === 'all' || task.date === filters.date;
-                const matchesDept = filters.dept === 'all' || task.dept === filters.dept;
-                const matchesStatus = filters.status === 'all' || task.status === filters.status;
-                const matchesSearch = !filters.search || task.title.toLowerCase().includes(filters.search) || task.dept.toLowerCase().includes(filters.search);
-                return matchesDate && matchesDept && matchesStatus && matchesSearch;
-            });
-        }
-
-        function renderKpis() {
-            const tasks = getFilteredTasks();
-            const total = tasks.length || 1;
-            const statusCounts = {
-                completed: tasks.filter(t => t.status === 'completed').length,
-                in_progress: tasks.filter(t => t.status === 'in_progress').length,
-                achieved: tasks.filter(t => t.status === 'achieved').length,
-                delayed: tasks.filter(t => t.status === 'delayed').length
-            };
-
-            const setText = (id, value) => {
-                const el = document.getElementById(id);
-                if (el) el.textContent = value;
-            };
-
-            setText('count-completed', statusCounts.completed);
-            setText('count-in_progress', statusCounts.in_progress);
-            setText('count-achieved', statusCounts.achieved);
-            setText('count-delayed', statusCounts.delayed);
-
-            setText('pct-completed', ((statusCounts.completed / total) * 100).toFixed(0) + '%');
-            setText('pct-in_progress', ((statusCounts.in_progress / total) * 100).toFixed(0) + '%');
-            setText('pct-achieved', ((statusCounts.achieved / total) * 100).toFixed(0) + '%');
-            setText('pct-delayed', ((statusCounts.delayed / total) * 100).toFixed(0) + '%');
-
-            const avg = Math.round((statusCounts.completed * 100 + statusCounts.in_progress * 70 + statusCounts.achieved * 85 + statusCounts.delayed * 40) / total);
-            setText('avg-completion', avg + '%');
-            const bar = document.getElementById('avg-progress-bar');
-            if (bar) bar.style.width = avg + '%';
-        }
-
-        function applyFilters() {
-            renderKpis();
-        }
-
-        function selectKpiFilter(status) {
-            const filter = document.getElementById('filter-status');
-            if (filter) {
-                filter.value = status;
-                applyFilters();
-            }
-        }
-
-        function resetKpiFilter() {
-            const filter = document.getElementById('filter-status');
-            if (filter) {
-                filter.value = 'all';
-                applyFilters();
-            }
-        }
-
-        function resetFilters() {
-            const fields = [
-                document.getElementById('filter-date'),
-                document.getElementById('filter-dept'),
-                document.getElementById('filter-status'),
-                document.getElementById('filter-search')
-            ];
-
-            fields.forEach(field => {
-                if (!field) return;
-                if (field.tagName === 'SELECT') field.value = 'all';
-                if (field.tagName === 'INPUT') field.value = '';
-            });
-
-            applyFilters();
-        }
-
-        function exportReport() {
-            const tasks = getFilteredTasks();
-            const rows = [
-                ['Нэр', 'Байгууллага', 'Төлөв', 'Огноо'],
-                ...tasks.map(t => [t.title, t.dept, t.status, t.date])
-            ];
-
-            const csvContent = rows.map(row => row.map(value => '"' + String(value).replace(/"/g, '""') + '"').join(',')).join('\n');
-            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'report.csv';
-            document.body.appendChild(a);
-            a.click();
-            a.remove();
-            URL.revokeObjectURL(url);
-        }
-
-        function refreshData() {
-            const icon = document.getElementById('refresh-icon');
-            if (icon) {
-                icon.classList.add('fa-spin-slow');
-            }
-
-            setTimeout(() => {
-                updateCurrentDate();
-                applyFilters();
-                if (icon) {
-                    icon.classList.remove('fa-spin-slow');
-                }
-            }, 600);
+            document.getElementById('current-date-display').textContent = d;
         }
 
         document.addEventListener('DOMContentLoaded', function () {
             updateCurrentDate();
-            renderKpis();
         });
     </script>
 </body>
